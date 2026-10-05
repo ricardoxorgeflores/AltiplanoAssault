@@ -38,7 +38,7 @@ public static class IntegradorRecursos3D
             "Blender: " + ModelosBlender;
 
         Debug.Log("[Recursos 3D] " + informe.Replace("\n", " | "));
-        EditorUtility.DisplayDialog("Validacion de recursos 3D", informe, "Aceptar");
+        MostrarMensaje("Validacion de recursos 3D", informe);
     }
 
     [MenuItem("Altiplano Assault/Recursos 3D/2 - Configurar FBX como Humanoid")]
@@ -69,17 +69,17 @@ public static class IntegradorRecursos3D
         var modelo = BuscarModeloBase(fbxMixamo);
         if (modelo == null)
         {
-            EditorUtility.DisplayDialog("Falta el personaje",
+            MostrarMensaje("Falta el personaje",
                 "Copia el FBX del personaje en " + ModelosMixamo +
-                " y usa un nombre que incluya Chullito o Character.", "Aceptar");
+                " y usa un nombre que incluya Chullito o Character.", true);
             return;
         }
 
         if (!AbrirEscenaObjetivo()) return;
         if (BuscarEnEscena("Jugador_Chullito_Modelo") != null)
         {
-            EditorUtility.DisplayDialog("Chullito ya integrado",
-                "Ya existe Jugador_Chullito_Modelo. No se creo un duplicado.", "Aceptar");
+            MostrarMensaje("Chullito ya integrado",
+                "Ya existe Jugador_Chullito_Modelo. No se creo un duplicado.");
             return;
         }
 
@@ -87,15 +87,15 @@ public static class IntegradorRecursos3D
         var provisional = BuscarEnEscena("Jugador_Chullito");
         if (grupo == null || provisional == null)
         {
-            EditorUtility.DisplayDialog("Escena incompatible",
-                "No se encontraron === PERSONAJES === y Jugador_Chullito.", "Aceptar");
+            MostrarMensaje("Escena incompatible",
+                "No se encontraron === PERSONAJES === y Jugador_Chullito.", true);
             return;
         }
 
         var instancia = PrefabUtility.InstantiatePrefab(modelo, SceneManager.GetActiveScene()) as GameObject;
         if (instancia == null)
         {
-            EditorUtility.DisplayDialog("Error", "Unity no pudo instanciar el FBX del personaje.", "Aceptar");
+            MostrarMensaje("Error", "Unity no pudo instanciar el FBX del personaje.", true);
             return;
         }
 
@@ -116,9 +116,9 @@ public static class IntegradorRecursos3D
         EditorSceneManager.SaveScene(SceneManager.GetActiveScene());
         Selection.activeGameObject = instancia;
 
-        EditorUtility.DisplayDialog("Chullito integrado",
+        MostrarMensaje("Chullito integrado",
             "Se creo Jugador_Chullito_Modelo en (-14, 0, 0), rotacion Y 90, y se desactivo el provisional. " +
-            "Revisa escala, hueso de la cabeza, materiales y transiciones antes de tomar la captura.", "Aceptar");
+            "Revisa escala, hueso de la cabeza, materiales y transiciones antes de tomar la captura.");
     }
 
     [MenuItem("Altiplano Assault/Recursos 3D/4 - Reemplazar provisional seleccionado por FBX...")]
@@ -127,8 +127,8 @@ public static class IntegradorRecursos3D
         var provisional = Selection.activeGameObject;
         if (provisional == null || !provisional.scene.IsValid())
         {
-            EditorUtility.DisplayDialog("Seleccion requerida",
-                "Selecciona en la Jerarquia el prop o enemigo provisional que quieres reemplazar.", "Aceptar");
+            MostrarMensaje("Seleccion requerida",
+                "Selecciona en la Jerarquia el prop o enemigo provisional que quieres reemplazar.", true);
             return;
         }
 
@@ -138,8 +138,8 @@ public static class IntegradorRecursos3D
         string normalizada = NormalizarRuta(archivo);
         if (!normalizada.StartsWith(assets + "/", StringComparison.OrdinalIgnoreCase))
         {
-            EditorUtility.DisplayDialog("FBX fuera del proyecto",
-                "Primero copia el recurso dentro de Assets/AltiplanoAssault/Models/AssetStore.", "Aceptar");
+            MostrarMensaje("FBX fuera del proyecto",
+                "Primero copia el recurso dentro de Assets/AltiplanoAssault/Models/AssetStore.", true);
             return;
         }
 
@@ -147,7 +147,7 @@ public static class IntegradorRecursos3D
         var modelo = AssetDatabase.LoadAssetAtPath<GameObject>(ruta);
         if (modelo == null)
         {
-            EditorUtility.DisplayDialog("Modelo no valido", "Unity no pudo cargar ese FBX.", "Aceptar");
+            MostrarMensaje("Modelo no valido", "Unity no pudo cargar ese FBX.", true);
             return;
         }
 
@@ -167,9 +167,9 @@ public static class IntegradorRecursos3D
         EditorSceneManager.SaveScene(provisional.scene);
         Selection.activeGameObject = instancia;
 
-        EditorUtility.DisplayDialog("Recurso integrado",
+        MostrarMensaje("Recurso integrado",
             "Se desactivo " + provisional.name + " y se creo " + instancia.name +
-            ". Ajusta la escala y comprueba la licencia antes del commit.", "Aceptar");
+            ". Ajusta la escala y comprueba la licencia antes del commit.");
     }
 
     static RuntimeAnimatorController CrearControlador(string[] rutasFbx)
@@ -308,4 +308,17 @@ public static class IntegradorRecursos3D
 
     static string Estado(bool encontrado) => encontrado ? "OK" : "FALTA";
     static string NormalizarRuta(string ruta) => ruta.Replace('\\', '/').TrimEnd('/');
+
+    static void MostrarMensaje(string titulo, string mensaje, bool advertencia = false)
+    {
+        if (!Application.isBatchMode)
+        {
+            EditorUtility.DisplayDialog(titulo, mensaje, "Aceptar");
+            return;
+        }
+
+        string texto = $"[Recursos 3D] {titulo}: {mensaje.Replace("\n", " | ")}";
+        if (advertencia) Debug.LogWarning(texto);
+        else Debug.Log(texto);
+    }
 }

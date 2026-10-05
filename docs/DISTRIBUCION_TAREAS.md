@@ -23,8 +23,8 @@ Estados: **Pendiente** · **En desarrollo** · **Finalizada**. Cada tarea es tam
 | F2 | Personaje base para Chullito en Mixamo (modelo + animaciones idle, correr, disparar) | Pendiente |
 | F3 | Modelar o adaptar en Blender el chullo y el poncho del jugador | Pendiente |
 | F4 | Modelo de la llaminga salvaje y del soldado enemigo (descarga o Tripo 3D) | Pendiente |
-| F5 | Exportar FBX a `Models/Blender` y `Models/AssetStore`; comparar original vs modificado | Pendiente |
-| F6 | Registrar cada recurso en `docs/RECURSOS.md` (nombre, fuente, enlace, licencia) | Pendiente |
+| F5 | Exportar FBX a `Models/Blender` y `Models/AssetStore`; comparar original vs modificado | En desarrollo |
+| F6 | Registrar cada recurso en `docs/RECURSOS.md` (nombre, fuente, enlace, licencia) | En desarrollo |
 
 ## Luis Ángel Osco Nina — Materiales y ambientación
 
@@ -42,3 +42,4 @@ Estados: **Pendiente** · **En desarrollo** · **Finalizada**. Cada tarea es tam
 | Fecha | Integrante | Qué se hizo | Evidencia |
 |---|---|---|---|
 | 05/10/2026 | Ricardo | Proyecto, escena base, repositorio y documentación | commit inicial |
+| 05/10/2026 | Luis Fernando | Rama de recursos 3D, integrador de FBX y guia de evidencias; pendientes modelos, licencias y capturas | rama `recursos/modelos-3d` |

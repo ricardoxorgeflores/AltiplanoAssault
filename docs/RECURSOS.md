@@ -31,4 +31,4 @@ Completar al incorporar cada recurso (Luis Fernando y Luis Ángel).
 | Herramienta | Uso | Prompt | Resultado |
 |---|---|---|---|
 | Claude | Apoyo en el script constructor de la escena y documentación | — | `Scripts/Editor/ConstructorPuebloAndino.cs` |
-| | | | |
+| Codex | Analisis del repositorio y automatizacion de la importacion e integracion de recursos 3D | Cumplir la guia de Luis Fernando sin borrar el trabajo de otros integrantes; preparar scripts de editor, documentacion, rama y commit | `Scripts/Editor/IntegradorRecursos3D.cs` y `docs/FLUJO_RECURSOS_3D_LUIS_FERNANDO.md` |
